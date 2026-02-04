@@ -28,6 +28,25 @@ CHECK (length(phone_number) <=13)
 CHECK (length(name) > 1)
 );
 
+CREATE TABLE members
+(
+member_id TEXT PRIMARY KEY NOT NULL,
+first_name VARCHAR (10) NOT NULL,
+last_name VARCHAR (10) NOT NULL,
+email TEXT NOT NULL,
+phone_number INTEGER NOT NULL,
+date_of_birth TEXT NOT NULL,
+join_date TEXT NOT NULL,
+emergency_contact_name VARCHAR (20) NOT NULL,
+emergency_contact_phone INTEGER NOT NULL,
+UNIQUE (phone_number),
+CHECK (length(phone_number) <=13)
+CHECK (length(emergency_contact_phone) <=13)
+CHECK (length(first_name) > 1)
+CHECK (length(last_name) > 1)
+CHECK (length(emergency_contact_name) > 1)
+);
+
 INSERT INTO location (location_id,name,address,phone_number,email,opening_hours) VALUES
 (1,'Downtown Fitness','123 Main St, London','020 555 1234','downtown@fittrackpro.com','06:00-22:00'),
 (2,'Suburban Wellness','45 Oak Ln, Manchester','0161 555 5678','suburban@fittrackpro.com','05:00-23:00');
