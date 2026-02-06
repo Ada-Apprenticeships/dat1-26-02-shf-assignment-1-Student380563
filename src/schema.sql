@@ -74,8 +74,8 @@ equipment_id TEXT PRIMARY KEY NOT NULL,
 name VARCHAR (25) NOT NULL,
 type TEXT CHECK (type IN ('Cardio', 'Strength')),
 purchase_date TEXT NOT NULL,
-last_maintainance_date TEXT NOT NULL,
-next_maintainance_date TEXT NOT NULL, 
+last_maintenance_date TEXT NOT NULL,
+next_maintenance_date TEXT NOT NULL, 
 location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id)
 CHECK (length(name) > 1)
@@ -108,7 +108,8 @@ FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 
 CREATE TABLE memberships
 (
-member_id TEXT PRIMARY KEY NOT NULL,
+membership_id TEXT PRIMARY KEY NOT NULL
+member_id TEXT NOT NULL,
 type TEXT NOT NULL,
 start_date TEXT NOT NULL,
 end_date TEXT NOT NULL,
@@ -191,13 +192,5 @@ FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
 
-INSERT INTO locations (location_id,name,address,phone_number,email,opening_hours) VALUES
-(1,'Downtown Fitness','123 Main St, London','020 555 1234','downtown@fittrackpro.com','06:00-22:00'),
-(2,'Suburban Wellness','45 Oak Ln, Manchester','0161 555 5678','suburban@fittrackpro.com','05:00-23:00');
-
-INSERT INTO staff (staff_id,first_name,last_name,email,phone_number,position,hire_date,location_id) VALUES
-(1,'James','Bond','james.bond@fittrackpro.com','07007 007007','Manager','2022-01-01','1');
 
 
--- staff_id,first_name,last_name,email,phone_number,position,hire_date,locations_id
--- 1,James,Bond,james.bond@fittrackpro.com,"07007 007007",Manager,2022-01-01,1
