@@ -40,3 +40,19 @@ LIMIT 1;
 
 -- 1.6
 
+SELECT COUNT (*) 
+FROM class_attendance
+WHERE attendance_status = 'Attended';
+
+
+SELECT COUNT(*) 
+FROM (
+    SELECT member_id 
+    FROM class_attendance
+    WHERE attendance_status = 'Attended'
+    GROUP BY member_id 
+    HAVING COUNT(*) > 1 
+) 
+AS count;
+
+-- using a nested query 

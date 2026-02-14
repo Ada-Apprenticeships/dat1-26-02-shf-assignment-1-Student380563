@@ -155,7 +155,7 @@ CREATE TABLE personal_training_sessions
 session_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-session_date TEXT NOT NULL,
+session_date TEXT NOT NULL LIKE ('____-__-__'),
 start_time TEXT NOT NULL,
 end_time TEXT NOT NULL,
 notes TEXT NOT NULL,
