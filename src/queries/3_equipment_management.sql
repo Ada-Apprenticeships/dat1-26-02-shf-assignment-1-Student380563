@@ -7,7 +7,7 @@ SELECT equipment_id, name, next_maintenance_date
 
 FROM equipment 
 
-WHERE next_maintenance_date >= '2025-01-01' AND next_maintenance_date <  '2025-01-30'; -- selecting the equiptment which are due in the next 30 days
+WHERE next_maintenance_date >= '2025-01-01' AND next_maintenance_date <= date('2025-01-01', '+30 days'); -- selecting the equiptment which are due in the next 30 days
 
 -- 3.2 
 

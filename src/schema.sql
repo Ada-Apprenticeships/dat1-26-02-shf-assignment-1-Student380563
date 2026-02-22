@@ -114,7 +114,7 @@ type TEXT NOT NULL,
 start_date TEXT NOT NULL,
 end_date TEXT NOT NULL,
 status TEXT CHECK (status IN ('Active', 'Inactive')),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 
@@ -125,7 +125,7 @@ member_id TEXT NOT NULL,
 location_id TEXT NOT NULL,
 check_in_time TEXT NOT NULL,
 check_out_time TEXT NOT NULL,
-FOREIGN KEY (member_id) REFERENCES members(member_id),
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE,
 FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
@@ -136,6 +136,7 @@ schedule_id TEXT NOT NULL,
 member_id TEXT NOT NULL,
 attendance_status TEXT CHECK (attendance_status IN ('Registered', 'Attended', 'Unattended')),
 FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (schedule_id) REFERENCES class_schedule(schedule_id)
 );
 
 CREATE TABLE payments
@@ -147,7 +148,7 @@ payment_date TEXT NOT NULL,
 payment_method TEXT CHECK (payment_method IN ('Credit Card', 'Bank Transfer', 'PayPal', 'Cash')),
 payment_type TEXT CHECK (payment_type IN ('Monthly membership fee', 'Day pass')),
 CHECK (length(amount) <=60),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 CREATE TABLE personal_training_sessions
@@ -155,12 +156,12 @@ CREATE TABLE personal_training_sessions
 session_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-session_date TEXT NOT NULL LIKE ('____-__-__'),
+session_date TEXT NOT NULL CHECK (session_date LIKE '____-__-__'),
 start_time TEXT NOT NULL,
 end_time TEXT NOT NULL,
 notes TEXT NOT NULL,
 CHECK (length(notes) <=100),
-FOREIGN KEY (member_id) REFERENCES members(member_id),
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE,
 FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
@@ -177,7 +178,7 @@ CHECK (length(weight) <=150),
 CHECK (length(body_fat_percentage) <=100),
 CHECK (length(muscle_mass) <=100),
 CHECK (length(bmi) <=40),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 
