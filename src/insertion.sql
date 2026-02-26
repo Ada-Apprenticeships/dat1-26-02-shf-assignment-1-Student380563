@@ -89,5 +89,3 @@ INSERT INTO equipment_maintenance_log (log_id, equipment_id, maintenance_date, d
 ('1', '1', '2024-12-15', 'Belt replacement', '1'),
 ('2', '2', '2024-07-20', 'Oiling and sensor check', '1'),
 ('3', '3', '2024-03-10', 'Safety bar adjustment', '1');
-
-
