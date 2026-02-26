@@ -38,3 +38,9 @@ GROUP BY c.class_id, c.name -- grouping by class id and name
 ORDER BY registration_count DESC;
 -- 4.6 
 
+SELECT AVG(member_count) AS average_classes_per_member
+FROM (
+    SELECT member_id, COUNT(*) AS member_count
+    FROM class_attendance
+    GROUP BY member_id
+);

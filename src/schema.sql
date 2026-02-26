@@ -1,4 +1,4 @@
-.open fittrackpro.db
+.open fittrackpro1.db
 .mode box
 
 DROP TABLE IF EXISTS locations;
@@ -37,8 +37,8 @@ first_name VARCHAR (13) NOT NULL,
 last_name VARCHAR (13) NOT NULL,
 email TEXT CHECK (email LIKE '%@%') NOT NULL,
 phone_number INTEGER NOT NULL,
-date_of_birth TEXT NOT NULL,
-join_date TEXT NOT NULL,
+date_of_birth TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (date_of_birth = strftime('%Y-%m-%d', date_of_birth)),
+join_date TEXT NOT NULL CHECK DEFAULT CURRENT_DATE (join_date = strftime('%Y-%m-%d', join_date)),
 emergency_contact_name VARCHAR (20) NOT NULL,
 emergency_contact_phone INTEGER NOT NULL,
 UNIQUE (phone_number),
@@ -58,7 +58,7 @@ last_name VARCHAR (13) NOT NULL,
 email TEXT CHECK (email LIKE '%@%') NOT NULL,
 phone_number INTEGER NOT NULL,
 position TEXT CHECK (position IN ('Trainer', 'Manager', 'Receptionist','Maintenance')), 
-hire_date TEXT NOT NULL, 
+hire_date TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (hire_date = strftime('%Y-%m-%d', hire_date)), 
 location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id) 
 UNIQUE (phone_number),
@@ -73,7 +73,7 @@ CREATE TABLE equipment
 equipment_id TEXT PRIMARY KEY NOT NULL,
 name VARCHAR (25) NOT NULL,
 type TEXT CHECK (type IN ('Cardio', 'Strength')),
-purchase_date TEXT NOT NULL,
+purchase_date TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (purchase_date = strftime('%Y-%m-%d', purchase_date)),
 last_maintenance_date TEXT NOT NULL,
 next_maintenance_date TEXT NOT NULL, 
 location_id TEXT NOT NULL,
@@ -111,8 +111,8 @@ CREATE TABLE memberships
 membership_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 type TEXT NOT NULL,
-start_date TEXT NOT NULL,
-end_date TEXT NOT NULL,
+start_date TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (start_date = strftime('%Y-%m-%d', start_date)),
+end_date TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (end_date = strftime('%Y-%m-%d', end_date)),
 status TEXT CHECK (status IN ('Active', 'Inactive')),
 FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
@@ -144,7 +144,7 @@ CREATE TABLE payments
 payment_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 amount REAL NOT NULL,
-payment_date TEXT NOT NULL,
+payment_date TEXT NOT NULL DEFAULT CURRENT_DATE CHECK (payment_date = strftime('%Y-%m-%d', payment_date)),
 payment_method TEXT CHECK (payment_method IN ('Credit Card', 'Bank Transfer', 'PayPal', 'Cash')),
 payment_type TEXT CHECK (payment_type IN ('Monthly membership fee', 'Day pass')),
 CHECK (length(amount) <=60),
@@ -156,7 +156,7 @@ CREATE TABLE personal_training_sessions
 session_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-session_date TEXT NOT NULL CHECK (session_date LIKE '____-__-__'),
+session_date TEXT NOT NULL CHECK (session_date = strftime('%Y-%m-%d', session_date)),
 start_time TEXT NOT NULL,
 end_time TEXT NOT NULL,
 notes TEXT NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE member_health_metrics
 (
 metric_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
-measurement_date TEXT NOT NULL,
+measurement_date TEXT NOT NULL CHECK (measurement_date = strftime('%Y-%m-%d', measurement_date)),
 weight INTEGER NOT NULL,
 body_fat_percentage INTEGER NOT NULL,
 muscle_mass INTEGER NOT NULL,
