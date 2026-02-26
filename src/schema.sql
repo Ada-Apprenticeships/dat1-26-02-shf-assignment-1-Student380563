@@ -37,8 +37,8 @@ first_name VARCHAR (13) NOT NULL,
 last_name VARCHAR (13) NOT NULL,
 email TEXT CHECK (email LIKE '%@%') NOT NULL,
 phone_number INTEGER NOT NULL,
-date_of_birth TEXT NOT NULL,
-join_date TEXT NOT NULL,
+date_of_birth TEXT NOT NULL DEFAULT (datetime('now')) ,
+join_date TEXT NOT NULL DEFAULT (datetime('now')),
 emergency_contact_name VARCHAR (20) NOT NULL,
 emergency_contact_phone INTEGER NOT NULL,
 UNIQUE (phone_number),
@@ -48,6 +48,8 @@ CHECK (length(first_name) > 1)
 CHECK (length(last_name) > 1)
 CHECK (length(emergency_contact_name) > 1)
 CHECK (length(email) > 1)
+CHECK (join_date LIKE '____-__-__')
+CHECK (date_of_birth LIKE '____-__-__') 
 );
 
 CREATE TABLE staff
@@ -55,10 +57,10 @@ CREATE TABLE staff
 staff_id TEXT PRIMARY KEY NOT NULL,
 first_name VARCHAR (13) NOT NULL,
 last_name VARCHAR (13) NOT NULL,
-email TEXT CHECK (email LIKE '%@%') NOT NULL,
+email TEXT NOT NULL,
 phone_number INTEGER NOT NULL,
 position TEXT CHECK (position IN ('Trainer', 'Manager', 'Receptionist','Maintenance')), 
-hire_date TEXT NOT NULL, 
+hire_date TEXT NOT NULL DEFAULT (datetime('now')) , 
 location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id) 
 UNIQUE (phone_number),
@@ -66,6 +68,8 @@ CHECK (length(phone_number) <=13)
 CHECK (length(first_name) > 1)
 CHECK (length(last_name) > 1)
 CHECK (length(email) > 1)
+CHECK (hire_date LIKE '____-__-__')
+CHECK (email LIKE '%@%')
 );
 
 CREATE TABLE equipment
@@ -73,12 +77,13 @@ CREATE TABLE equipment
 equipment_id TEXT PRIMARY KEY NOT NULL,
 name VARCHAR (25) NOT NULL,
 type TEXT CHECK (type IN ('Cardio', 'Strength')),
-purchase_date TEXT NOT NULL,
+purchase_date TEXT NOT NULL DEFAULT (datetime('now')),
 last_maintenance_date TEXT NOT NULL,
 next_maintenance_date TEXT NOT NULL, 
 location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id)
 CHECK (length(name) > 1)
+CHECK (purchase_date LIKE '____-__-__')
 );
 
 CREATE TABLE classes
@@ -111,10 +116,12 @@ CREATE TABLE memberships
 membership_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 type TEXT NOT NULL,
-start_date TEXT NOT NULL,
-end_date TEXT NOT NULL,
+start_date TEXT NOT NULL DEFAULT (datetime('now')),
+end_date TEXT NOT NULL DEFAULT (datetime('now')) ,
 status TEXT CHECK (status IN ('Active', 'Inactive')),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
+CHECK (start_date LIKE '____-__-__')
+CHECK (end_date LIKE '____-__-__')
 );
 
 
@@ -125,7 +132,7 @@ member_id TEXT NOT NULL,
 location_id TEXT NOT NULL,
 check_in_time TEXT NOT NULL,
 check_out_time TEXT NOT NULL,
-FOREIGN KEY (member_id) REFERENCES members(member_id),
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE,
 FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
@@ -143,11 +150,11 @@ CREATE TABLE payments
 payment_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 amount REAL NOT NULL,
-payment_date TEXT NOT NULL,
+payment_date TEXT NOT NULL CHECK(payment_date LIKE '____-__-__ __:__:__'),
 payment_method TEXT CHECK (payment_method IN ('Credit Card', 'Bank Transfer', 'PayPal', 'Cash')),
 payment_type TEXT CHECK (payment_type IN ('Monthly membership fee', 'Day pass')),
 CHECK (length(amount) <=60),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 CREATE TABLE personal_training_sessions
@@ -155,12 +162,12 @@ CREATE TABLE personal_training_sessions
 session_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-session_date TEXT NOT NULL,
+session_date TEXT NOT NULL CHECK (session_date LIKE '____-__-__'),
 start_time TEXT NOT NULL,
 end_time TEXT NOT NULL,
 notes TEXT NOT NULL,
 CHECK (length(notes) <=100),
-FOREIGN KEY (member_id) REFERENCES members(member_id),
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE,
 FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 );
 
@@ -168,7 +175,7 @@ CREATE TABLE member_health_metrics
 (
 metric_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
-measurement_date TEXT NOT NULL,
+measurement_date TEXT NOT NULL CHECK (measurement_date LIKE '____-__-__'),
 weight INTEGER NOT NULL,
 body_fat_percentage INTEGER NOT NULL,
 muscle_mass INTEGER NOT NULL,
@@ -177,7 +184,7 @@ CHECK (length(weight) <=150),
 CHECK (length(body_fat_percentage) <=100),
 CHECK (length(muscle_mass) <=100),
 CHECK (length(bmi) <=40),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 
@@ -283,7 +290,3 @@ FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
 -- ('1', '1', '2024-12-15', 'Belt replacement', '1'),
 -- ('2', '2', '2024-07-20', 'Oiling and sensor check', '1'),
 -- ('3', '3', '2024-03-10', 'Safety bar adjustment', '1');
-
-
-
-
