@@ -130,10 +130,12 @@ CREATE TABLE attendance
 attendance_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 location_id TEXT NOT NULL,
-check_in_time TEXT NOT NULL,
-check_out_time TEXT NOT NULL,
+check_in_time TEXT NOT NULL DEFAULT (datetime('now')),
+check_out_time TEXT NOT NULL DEFAULT (datetime('now')),
 FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE,
-FOREIGN KEY (location_id) REFERENCES locations(location_id)
+FOREIGN KEY (location_id) REFERENCES locations(location_id) 
+CHECK (check_in_time LIKE '____-__-__ __:__:__')
+CHECK (check_out_time LIKE '____-__-__ __:__:__')
 );
 
 CREATE TABLE class_attendance
@@ -142,7 +144,7 @@ class_attendance_id TEXT PRIMARY KEY NOT NULL,
 schedule_id TEXT NOT NULL,
 member_id TEXT NOT NULL,
 attendance_status TEXT CHECK (attendance_status IN ('Registered', 'Attended', 'Unattended')),
-FOREIGN KEY (member_id) REFERENCES members(member_id)
+FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 
 CREATE TABLE payments
@@ -150,10 +152,11 @@ CREATE TABLE payments
 payment_id TEXT PRIMARY KEY NOT NULL,
 member_id TEXT NOT NULL,
 amount REAL NOT NULL,
-payment_date TEXT NOT NULL CHECK(payment_date LIKE '____-__-__ __:__:__'),
+payment_date TEXT NOT NULL,
 payment_method TEXT CHECK (payment_method IN ('Credit Card', 'Bank Transfer', 'PayPal', 'Cash')),
 payment_type TEXT CHECK (payment_type IN ('Monthly membership fee', 'Day pass')),
 CHECK (length(amount) <=60),
+CHECK (payment_date LIKE '____-__-__ __:__:__')
 FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
 );
 

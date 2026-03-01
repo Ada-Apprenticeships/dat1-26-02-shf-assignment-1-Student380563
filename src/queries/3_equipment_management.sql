@@ -4,14 +4,14 @@
 -- 3.1 
 
 SELECT equipment_id, name, next_maintenance_date
-
 FROM equipment 
-
-WHERE next_maintenance_date >= '2025-01-01' AND next_maintenance_date <= date('2025-01-01', '+30 days'); -- selecting the equiptment which are due in the next 30 days
+WHERE next_maintenance_date >= '2025-01-01' AND next_maintenance_date <= date('2025-01-01', '+30 days'); 
+-- selecting the equiptment which are due in the next 30 days
 
 -- 3.2 
 
-SELECT type, COUNT(*) as count -- selecting the type column and using the count wildcard to count all instances
+SELECT type, COUNT(*) as count 
+-- selecting the type column and using the count wildcard to count all instances
 FROM equipment
 GROUP BY type; 
 
@@ -19,6 +19,7 @@ GROUP BY type;
 
 SELECT 
     type,
-    julianday(MAX(purchase_date)) - julianday(MIN(purchase_date)) / 2 AS days_between
+    julianday(MAX(purchase_date)) - julianday(MIN(purchase_date)) / 2 AS days_between 
+    --using julianday to get the difference between the 1st and last purchase date
 FROM equipment
 GROUP BY type;

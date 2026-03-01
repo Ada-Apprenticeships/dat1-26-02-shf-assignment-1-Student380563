@@ -3,19 +3,21 @@
 
 -- 4.1 
 
-SELECT c.class_id AS "class_id", c.name AS "class_name", s.first_name || ' ' || s.last_name AS "instructor_name" --using concatenation to join first name and last name together
+SELECT c.class_id AS "class_id", c.name AS "class_name", s.first_name || ' ' || s.last_name AS "instructor_name" 
+--using concatenation to join first name and last name together
 FROM staff s
 JOIN class_schedule cs ON s.staff_id = cs.staff_id
 JOIN classes c ON cs.class_id = c.class_id;
 
 -- 4.2 
 
-SELECT cs.class_id, c.name, cs.start_time, cs.end_time, c.capacity - (SELECT COUNT(attendance_status) -- using count to get numbers of attendees (registered or not) and subtracting it from capacity
-FROM class_attendance ca 
+SELECT cs.class_id, c.name, cs.start_time, cs.end_time, c.capacity - (SELECT COUNT(attendance_status) 
+-- using count to get numbers of attendees (registered or not) and subtracting it from capacity
+FROM class_attendance AS ca 
 WHERE ca.schedule_id = cs.schedule_id) AS available_spots
 FROM class_schedule AS cs
 JOIN classes c ON cs.class_id = c.class_id -- joining the class table to the class schedule table
-WHERE cs.start_time LIKE '2025-02-01%';
+WHERE cs.start_time LIKE '2025-02-01%'; -- using LIKE to select specific date
 
 
 -- 4.3 
@@ -36,11 +38,14 @@ JOIN classes c ON cs.class_id = c.class_id                   -- getting class_id
 WHERE ca.attendance_status = 'Registered' -- looking for the status 'Registered'
 GROUP BY c.class_id, c.name -- grouping by class id and name
 ORDER BY registration_count DESC;
+
+
+
 -- 4.6 
 
-SELECT AVG(member_count) AS average_classes_per_member
+SELECT AVG(member_count) AS average_classes_per_member 
 FROM (
-    SELECT member_id, COUNT(*) AS member_count
-    FROM class_attendance
-    GROUP BY member_id
+    SELECT member_id, COUNT(*) AS member_count -- counting each memberid and returning as member_count
+    FROM class_attendance -- from class attendance so we can see the number of attendees
+    GROUP BY member_id 
 );
