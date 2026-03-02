@@ -27,7 +27,9 @@ INSERT INTO class_attendance (class_attendance_id, schedule_id, member_id, atten
 ('11', '1', '11', 'Registered');
 
 -- 4.4 
-DELETE FROM class_attendance WHERE rowid = 3;
+DELETE FROM class_attendance 
+WHERE schedule_id = '7'
+AND member_id = '3';
 
 -- 4.5 
 
