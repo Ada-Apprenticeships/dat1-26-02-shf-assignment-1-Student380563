@@ -105,10 +105,12 @@ CREATE TABLE class_schedule
 schedule_id TEXT PRIMARY KEY NOT NULL,
 class_id TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-start_time TEXT NOT NULL,
-end_time TEXT NOT NULL,
+start_time TEXT NOT NULL DEFAULT (datetime('now')),
+end_time TEXT NOT NULL DEFAULT (datetime('now')),
 FOREIGN KEY (class_id) REFERENCES classes(class_id)
-FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+FOREIGN KEY (staff_id) REFERENCES staff(staff_id) ON DELETE CASCADE
+CHECK (start_time LIKE '____-__-__ __:__:__')
+CHECK (end_time LIKE '____-__-__ __:__:__')
 );
 
 CREATE TABLE memberships
@@ -198,7 +200,7 @@ equipment_id TEXT NOT NULL,
 maintenance_date TEXT NOT NULL,
 description TEXT NOT NULL,
 staff_id TEXT NOT NULL,
-FOREIGN KEY (staff_id) REFERENCES staff(staff_id)
+FOREIGN KEY (staff_id) REFERENCES staff(staff_id) ON DELETE CASCADE
 );
 
 
