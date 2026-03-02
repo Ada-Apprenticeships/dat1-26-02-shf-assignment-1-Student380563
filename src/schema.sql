@@ -147,6 +147,7 @@ schedule_id TEXT NOT NULL,
 member_id TEXT NOT NULL,
 attendance_status TEXT CHECK (attendance_status IN ('Registered', 'Attended', 'Unattended')),
 FOREIGN KEY (member_id) REFERENCES members(member_id) ON DELETE CASCADE
+FOREIGN KEY (schedule_id) REFERENCES class_schedule(schedule_id) 
 );
 
 CREATE TABLE payments

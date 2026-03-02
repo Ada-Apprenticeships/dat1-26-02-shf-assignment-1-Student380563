@@ -63,9 +63,8 @@ INSERT INTO class_attendance (class_attendance_id, schedule_id, member_id, atten
 ('5', '2', '1', 'Attended'),
 ('6', '2', '2', 'Registered'),
 ('7', '3', '4', 'Attended'),
-('13', '7', '1', 'Attended'),
-('14', '8', '2', 'Attended'),
-('15', '9', '5', 'Attended');
+('13', '7', '1', 'Attended');
+
 
 INSERT INTO payments (payment_id, member_id, amount, payment_date, payment_method, payment_type) VALUES
 ('1', '1', '40.00', '2024-11-01 10:00:00', 'Credit Card', 'Monthly membership fee'),
