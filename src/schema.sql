@@ -59,7 +59,7 @@ first_name VARCHAR (13) NOT NULL,
 last_name VARCHAR (13) NOT NULL,
 email TEXT NOT NULL,
 phone_number INTEGER NOT NULL,
-position TEXT CHECK (position IN ('Trainer', 'Manager', 'Receptionist','Maintenance')), 
+position TEXT, 
 hire_date TEXT NOT NULL DEFAULT (datetime('now')) , 
 location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id) 
@@ -70,13 +70,14 @@ CHECK (length(last_name) > 1)
 CHECK (length(email) > 1)
 CHECK (hire_date LIKE '____-__-__')
 CHECK (email LIKE '%@%')
+CHECK (position IN ('Trainer', 'Manager', 'Receptionist','Maintenance'))
 );
 
 CREATE TABLE equipment
 (
 equipment_id TEXT PRIMARY KEY NOT NULL,
 name VARCHAR (25) NOT NULL,
-type TEXT CHECK (type IN ('Cardio', 'Strength')),
+type TEXT,
 purchase_date TEXT NOT NULL DEFAULT (datetime('now')),
 last_maintenance_date TEXT NOT NULL,
 next_maintenance_date TEXT NOT NULL, 
@@ -84,6 +85,7 @@ location_id TEXT NOT NULL,
 FOREIGN KEY (location_id) REFERENCES locations(location_id)
 CHECK (length(name) > 1)
 CHECK (purchase_date LIKE '____-__-__')
+CHECK (type IN ('Cardio', 'Strength'))
 );
 
 CREATE TABLE classes

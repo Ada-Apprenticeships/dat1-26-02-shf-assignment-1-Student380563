@@ -2,12 +2,14 @@
 .mode column
 
 -- 7.1 
+-- List all staff members by position
 
 SELECT staff_id, first_name, last_name, position AS role
 FROM staff
 ORDER BY role;
 
 -- 7.2 
+-- Find trainers with one or more personal training session in the upcoming month
 
 SELECT s.staff_id AS trainer_id,
     s.first_name || ' ' || s.last_name AS "trainer_name", -- joining the first name and last name together 

@@ -2,6 +2,7 @@
 .mode column
 
 -- 8.1 
+-- List all personal training sessions for specific trainer "Ivy Irwin"
 
 SELECT pt.session_id,
   m.first_name || ' ' || m.last_name AS "member_name", 
@@ -9,7 +10,6 @@ SELECT pt.session_id,
     pt.session_date,
     pt.start_time, 
     pt.end_time
-
 FROM personal_training_sessions AS pt
 JOIN members m ON pt.member_id = m.member_id
 JOIN staff s ON pt.staff_id = s.staff_id

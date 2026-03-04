@@ -2,12 +2,14 @@
 .mode column
 
 -- 5.1 
+-- List all active memberships with member details
+
 SELECT m.member_id, m.first_name, m.last_name, mb.type AS membership_type, mb.start_date AS join_date
 FROM members AS m
 JOIN memberships mb on m.member_id = mb.member_id;
 
 -- 5.2 
-
+-- Calculate the average duration of gym visits for each membership type
 
 SELECT
     m.type, AVG((julianday(check_out_time) - julianday(check_in_time)) * 24 * 60) AS avg_visit_duration_minutes 
@@ -16,9 +18,12 @@ FROM attendance AS a
 JOIN memberships m on a.member_id = m.member_id
 GROUP BY type;
 
--- 5.3 
 
-SELECT m.member_id, m.first_name, m.last_name, m.email, mb.end_date
+-- 5.3 
+-- Identify members with expiring memberships in 2025
+
+SELECT 
+    m.member_id, m.first_name, m.last_name, m.email, mb.end_date
 FROM members AS m
 JOIN memberships mb ON m.member_id = mb.member_id
 WHERE end_date LIKE '2025%'; 

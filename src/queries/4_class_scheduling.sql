@@ -2,6 +2,7 @@
 .mode column
 
 -- 4.1 
+-- List all classes with their instructors
 
 SELECT c.class_id AS "class_id", c.name AS "class_name", s.first_name || ' ' || s.last_name AS "instructor_name" 
 --using concatenation to join first name and last name together
@@ -10,6 +11,7 @@ JOIN class_schedule cs ON s.staff_id = cs.staff_id
 JOIN classes c ON cs.class_id = c.class_id;
 
 -- 4.2 
+-- Find available classes for a specific date
 
 SELECT cs.class_id, c.name, cs.start_time, cs.end_time, c.capacity - (SELECT COUNT(attendance_status) 
 -- using count to get numbers of attendees (registered or not) and subtracting it from capacity
@@ -21,17 +23,21 @@ WHERE cs.start_time LIKE '2025-02-01%'; -- using LIKE to select specific date
 
 
 -- 4.3 
+-- Register a member for a class
 
 
 INSERT INTO class_attendance (class_attendance_id, schedule_id, member_id, attendance_status) VALUES
 ('11', '1', '11', 'Registered');
 
 -- 4.4 
+-- Cancel a class registration
+
 DELETE FROM class_attendance 
 WHERE schedule_id = '7'
 AND member_id = '3';
 
 -- 4.5 
+-- Display most popular classes
 
 SELECT c.class_id, c.name, COUNT(*) AS registration_count
 FROM class_attendance AS ca
@@ -44,6 +50,7 @@ ORDER BY registration_count DESC;
 
 
 -- 4.6 
+-- Calculate average number of classes per member
 
 SELECT AVG(member_count) AS average_classes_per_member 
 FROM (
